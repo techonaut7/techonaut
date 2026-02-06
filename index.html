@@ -95,6 +95,16 @@
         .heart-shape:before { top: -50%; left: 0; }
         .heart-shape:after { top: 0; right: -50%; }
 
+        .heart-dialogue {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8rem;
+            margin-top: 30px;
+            color: #ffccd5;
+            min-height: 2.5rem;
+            text-align: center;
+            padding: 0 20px;
+        }
+
         /* --- SPACE SCREEN --- */
         #space-screen { display: none; position: relative; width: 100%; height: 100%; opacity: 0; transition: opacity 2.5s; z-index: 5;}
 
@@ -204,7 +214,6 @@
     <canvas id="star-canvas"></canvas>
     <canvas id="falling-roses-canvas"></canvas>
 
-    <!-- Music file linked as requested -->
     <audio id="bgMusic" loop preload="auto">
         <source src="Navjot_Ahuja_-_Khat__Official_Audio_(256k).mp3" type="audio/mpeg">
     </audio>
@@ -212,22 +221,22 @@
     <div id="volume-screen">
         <div class="volume-card">
             <div class="volume-icon">❤️</div>
-            <p class="fucchi-msg">I made this for you, Jainu. Turn up the volume, take a breath, and enjoy the memories... ❤️</p>
+            <p class="fucchi-msg">hii fucchi I have made something small but very beautiful for youuu now turn up the volume and interact halkaa</p>
             <div class="race-bar-container"><div class="race-bar-fill" id="raceFill"></div></div>
             <button class="btn-main" id="startBtn">START THE MAGIC</button>
-            <p id="audio-status">Wait for the melody... 🎵</p>
+            <p id="audio-status">Waiting for the melody... 🎵</p>
         </div>
     </div>
 
     <div id="heart-screen">
         <div class="heart-container" id="heartTrigger"><div class="heart-shape"></div></div>
-        <h2 style="font-family:'Dancing Script'; font-size: 1.8rem; margin-top: 30px; color: #ffccd5;">Open My Heart...</h2>
+        <div class="heart-dialogue" id="heartDialogue"></div>
     </div>
 
     <div id="space-screen">
         <div class="narrative-box">
             <p class="narrative-text" id="spaceStory">
-                Collect these roses, Jenishi. Each one is a piece of my heart just for you. 😂❤️
+                Ohhh wait k ho yo..?? Roses in my heart..? Huh..?? Waaa collect them all jenishi all for youuuuu 😂❤️
             </p>
             <p style="font-size: 0.7rem; margin-top: 5px; color: var(--rose-red); opacity: 0.7;">
                 Tap slowly to relive each memory
@@ -271,12 +280,12 @@
         audio.volume = 0.8;
 
         audio.oncanplaythrough = () => {
-            audioStatus.innerText = "Khat is ready. Tap to start. 🌹";
+            audioStatus.innerText = "All set! Tap to start. 🌹";
             audioStatus.style.color = "#e53935";
         };
 
         audio.onerror = () => {
-            audioStatus.innerText = "Music ready (Khat)! Tap to start. 🌹";
+            audioStatus.innerText = "All set! Tap to start. 🌹";
         };
 
         let rosesCollected = 0;
@@ -398,12 +407,24 @@
             }, 50);
         };
 
-        function transitionToHeart() {
+        async function transitionToHeart() {
             document.getElementById('volume-screen').style.transform = 'translateY(-100%)';
             const heartScreen = document.getElementById('heart-screen');
+            const dialogue = document.getElementById('heartDialogue');
+            
             heartScreen.style.display = 'flex';
             setTimeout(() => heartScreen.style.opacity = '1', 100);
+
+            // Dialogue Sequence
+            await wait(1000);
+            dialogue.innerText = "Huh .?? A heart";
+            await wait(2000);
+            dialogue.innerText = "Ohhh it's my heart";
+            await wait(2000);
+            dialogue.innerText = "Let's seee k xa bhitraa";
         }
+
+        function wait(ms) { return new Promise(res => setTimeout(res, ms)); }
 
         document.getElementById('heartTrigger').onclick = function() {
             if (audio.paused) audio.play().catch(() => {});
@@ -413,6 +434,7 @@
         function explodeHeart() {
             const heart = document.querySelector('.heart-container');
             heart.style.transition = '0.8s ease-in'; heart.style.transform = 'scale(50)'; heart.style.opacity = '0';
+            document.getElementById('heartDialogue').style.opacity = '0';
             setTimeout(() => { document.getElementById('heart-screen').style.display = 'none'; initSpace(); }, 700);
         }
 
