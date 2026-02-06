@@ -3,201 +3,472 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>School Admissions - Class 11</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>For My Jainu 🌹</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Cinzel:wght@400;700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #080202;
+            --gold: #fbc02d;
+            --rose-red: #e53935;
+            --soft-pink: #ff8a80;
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--bg-color);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            background: radial-gradient(circle at center, #3d0a0a 0%, #080202 100%);
+        }
+
+        #star-canvas, #falling-roses-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
+        #falling-roses-canvas { z-index: 2; opacity: 0; transition: opacity 2s; }
+
+        /* --- INTRO SCREEN --- */
+        #volume-screen {
+            position: fixed; inset: 0; background: #000; z-index: 10000;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; padding: 30px;
+            transition: transform 1.2s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+
+        .volume-card {
+            background: var(--glass);
+            border: 1px solid rgba(251, 192, 45, 0.2);
+            padding: 40px 30px;
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            max-width: 400px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .volume-icon { font-size: 5rem; margin-bottom: 20px; filter: drop-shadow(0 0 20px var(--rose-red)); animation: pulse 2s infinite; }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.15); opacity: 0.9; }
+        }
+
+        .fucchi-msg {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            color: #eee;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .race-bar-container {
+            width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px;
+            margin: 25px 0; overflow: hidden;
+        }
+        .race-bar-fill { width: 0%; height: 100%; background: var(--gold); box-shadow: 0 0 15px var(--gold); transition: width 0.3s; }
+
+        /* --- HEART SCREEN --- */
+        #heart-screen {
+            position: fixed; inset: 0; background: #000; display: none;
+            flex-direction: column; justify-content: center; align-items: center;
+            z-index: 5000; opacity: 0; transition: opacity 1s;
+        }
+
+        .heart-container {
+            position: relative; width: 150px; height: 150px; cursor: pointer;
+            filter: drop-shadow(0 0 30px var(--rose-red));
+        }
+        .heart-shape {
+            position: absolute; inset: 0; background-color: var(--rose-red); transform: rotate(-45deg);
+        }
+        .heart-shape:before, .heart-shape:after {
+            content: ""; position: absolute; background-color: var(--rose-red);
+            border-radius: 50%; width: 100%; height: 100%;
+        }
+        .heart-shape:before { top: -50%; left: 0; }
+        .heart-shape:after { top: 0; right: -50%; }
+
+        /* --- SPACE SCREEN --- */
+        #space-screen { display: none; position: relative; width: 100%; height: 100%; opacity: 0; transition: opacity 2s; z-index: 5;}
+
+        .floating-rose {
+            position: absolute; font-size: 3.5rem; cursor: pointer;
+            filter: drop-shadow(0 0 15px var(--rose-red)); z-index: 10; 
+            user-select: none; will-change: transform;
+        }
+
+        .pop-out { animation: burst 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes burst {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        .narrative-box {
+            position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 600px; text-align: center; z-index: 20;
+            padding: 20px; background: rgba(0,0,0,0.6); border-radius: 20px;
+            backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .narrative-text {
+            font-family: 'Dancing Script', cursive; font-size: 1.3rem; color: #ffccd5;
+            line-height: 1.4;
+        }
+
+        /* --- MODAL --- */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+            display: none; justify-content: center; align-items: center;
+            z-index: 20000; padding: 20px;
+        }
+        .modal-content {
+            background: #120505; padding: 25px; border-radius: 30px;
+            border: 1px solid var(--gold); text-align: center;
+            max-width: 450px; width: 100%; box-shadow: 0 0 50px rgba(251, 192, 45, 0.15);
+        }
+        .modal-img {
+            width: 100%; max-height: 55vh; object-fit: contain;
+            border-radius: 20px; background: #111; border: 1px solid #333;
+        }
+
+        /* --- FINAL SCREEN --- */
+        #finale-screen {
+            display: none; flex-direction: column; justify-content: center;
+            align-items: center; height: 100%; text-align: center; opacity: 0;
+            padding: 20px; z-index: 10;
+        }
+
+        .giant-emoji-rose {
+            font-size: 10rem; margin-bottom: 20px;
+            filter: drop-shadow(0 0 30px var(--rose-red));
+            animation: float-rose 3.5s ease-in-out infinite;
+            z-index: 15;
+        }
+
+        @keyframes float-rose {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-25px) rotate(8deg); }
+        }
+
+        .btn-main {
+            background: var(--gold); border: none;
+            color: #000; padding: 15px 40px; font-family: 'Cinzel', serif;
+            font-weight: 700; border-radius: 50px; cursor: pointer;
+            margin-top: 25px; transition: 0.4s; letter-spacing: 1px;
+            z-index: 20;
+        }
+        .btn-main:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--gold); }
+
+    </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <h1>Admission Programme 2082</h1>
-            <nav>
-                <a href="#admission-form">Admission Form</a>
-                <a href="#contact">Contact Us</a>
-            </nav>
+
+    <canvas id="star-canvas"></canvas>
+    <canvas id="falling-roses-canvas"></canvas>
+
+    <!-- Use a direct stream link for Google Drive via a proxy service -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="https://drive.google.com/uc?export=download&id=136qhu9wSYdba5TWYRcE8H5vwYd2CkzDi" type="audio/mpeg">
+    </audio>
+
+    <div id="volume-screen">
+        <div class="volume-card">
+            <div class="volume-icon">❤️</div>
+            <p class="fucchi-msg">I have made something small but beautiful for my fucchi... raise the volume and start it okii? ❤️</p>
+            <div class="race-bar-container"><div class="race-bar-fill" id="raceFill"></div></div>
+            <button class="btn-main" id="startBtn">START IT OKII</button>
         </div>
-    </header>
+    </div>
 
-    <main>
-        <section class="hero">
-            <div class="hero-content">
-                <h2>Shape Your Future With Us</h2>
-                <p>Admissions open for Class 11. Choose your own path.</p>
-            </div>
-        </section>
+    <div id="heart-screen">
+        <div class="heart-container" id="heartTrigger"><div class="heart-shape"></div></div>
+        <h2 style="font-family:'Dancing Script'; font-size: 2.2rem; margin-top: 40px; color: #ffccd5;">Open My Heart...</h2>
+    </div>
 
-        <section class="admission-section" id="admission-form">
-            <form class="admission-form" autocomplete="off" action="#" method="post">
-                <h2>Class 11 Admission Form</h2>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="name">First Name</label>
-                        <input type="text" id="name" name="name" required placeholder="First name">
-                    </div>
-                <div class="form-group">
-                    <label for="middle-name">Middle Name</label>
-                    <input type="text" id="middle-name" name="middle-name" placeholder="Middle name (optional)">
-                </div>
-                    <div class="form-group">
-                        <label for="name">Last Name</label>
-                        <input type="text" id="name" name="name" required placeholder="Last name">
-                    </div>
-                    <div class="form-group">
-                        <label for="dob">Date of Birth</label>
-                        <input type="date" id="dob" name="dob" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required placeholder="example@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" required placeholder="9XXXXXX">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="address">Address</label>
-                        <input type="text" id="address" name="address" required placeholder="Your address">
-                    </div>
-                    <div class="form-group">
-                        <label for="prev-school">Previous School</label>
-                        <input type="text" id="prev-school" name="prev-school" required placeholder="School name">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="gpa">SEE GPA</label>
-                        <input type="number" step="0.01" min="0" max="4" id="gpa" name="gpa" required placeholder="e.g. 3.85">
-                    </div>
-                    <div class="form-group">
-                        <label for="faculty">Select Faculty</label>
-                        <select id="faculty" name="faculty" required>
-                            <option value="">-- Select Faculty --</option>
-                            <option value="science">Science</option>
-                            <option value="management">Management</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="gender">Gender</label>
-                        <select id="gender" name="gender" required>
-                            <option value="">-- Select Gender --</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="subjects-area" class="subjects-area"></div>
-                <div class="form-row achievement-group">
-                    <div class="form-group full">
-                        <label for="achievements">Scholarship / Achievements / Extra-curricular (if any)</label>
-                        <textarea id="achievements" name="achievements" rows="2" placeholder="Mention any awards, scholarships, or achievements"></textarea>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group full">
-                        <label for="message">Additional Information</label>
-                        <textarea id="message" name="message" rows="3" placeholder="Anything else you'd like us to know?"></textarea>
-                    </div>
-                </div>
-                <button type="submit">Submit Application</button>
-            </form>
-        </section>
-
-        <section class="contact-section" id="contact">
-            <div class="contact-card">
-                <h2>Contact Us</h2>
-                <p>If you have any questions, please reach out to us:</p>
-                <ul>
-                    <li>Email: <a href="techonaut07@gmail.com">techonaut07@gmail.com</a></li>
-                    <li>Phone: <a href="tel:+977-9764199675">+977-9764199675</a></li>
-                    <li>Address: Dang, Nepal</li>
-                </ul>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="footer-content">
-            <p>&copy;techonaut07. All rights reserved.</p>
+    <div id="space-screen">
+        <div class="narrative-box">
+            <p class="narrative-text" id="spaceStory">
+                ohhh wait k ho yo..?? Roses in my heart..? Huh..?? Waaa collect them all jenishi all for youuuuu 😂❤️
+            </p>
+            <p style="font-size: 0.85rem; margin-top: 10px; color: var(--gold); opacity: 0.8;">
+                Click each rose to relive a memory
+            </p>
         </div>
-    </footer>
+        <div id="roseContainer" style="width:100%; height:100%;"></div>
+    </div>
+
+    <div class="modal" id="photoModal">
+        <div class="modal-content">
+            <div id="loadingText" style="color: var(--gold); margin-bottom: 15px; font-size: 0.9rem;">Capturing memory...</div>
+            <img id="modalImg" src="" class="modal-img">
+            <p id="modalMsg" style="font-family:'Dancing Script'; font-size:1.6rem; margin: 20px 0; color: #ffccd5;"></p>
+            <button class="btn-main" style="padding: 10px 25px;" onclick="closeModal()">Back to my heart 🌹</button>
+        </div>
+    </div>
+
+    <div id="finale-screen">
+        <div class="giant-emoji-rose">🌹</div>
+        <h1 style="font-family:'Dancing Script'; font-size: 3.5rem; color:var(--soft-pink); text-shadow: 0 0 20px rgba(229, 57, 53, 0.4);">Happy Rose Day</h1>
+        <h2 style="font-family:'Cinzel'; color:var(--gold); margin-bottom: 20px; font-size: 1.8rem; letter-spacing: 2px;">Meri Pyari Jainu</h2>
+        <p style="padding:0 25px; font-family:'Dancing Script'; max-width:550px; color:#fff; line-height: 1.6; font-size: 1.5rem;">
+            "Every single rose you just collected represents a beautiful moment of us. These memories are the most precious things I carry in my heart. Happy Rose Day, my favorite person."
+        </p>
+        <button class="btn-main" onclick="location.reload()">REPLAY THE MAGIC? ❤️</button>
+    </div>
 
     <script>
-    document.getElementById('faculty').addEventListener('change', showSubjects);
+        const audio = document.getElementById('bgMusic');
+        let rosesCollected = 0;
+        let animationId;
+        const roseObjects = [];
+        const ROSE_SIZE = 60; 
 
-    function showSubjects() {
-        const faculty = document.getElementById('faculty').value;
-        const area = document.getElementById('subjects-area');
-        area.innerHTML = '';
-        if (faculty === 'science') {
-            area.innerHTML = `
-                <div class="subjects-card animate-in">
-                    <div>
-                        <strong>Compulsory Subjects (Science):</strong>
-                        <ul>
-                            <li>English</li>
-                            <li>Nepali</li>
-                            <li>Physics</li>
-                            <li>Chemistry</li>
-                        </ul>
-                    </div>
-                    <div class="optional-group">
-                        <strong>Optional Subjects:</strong>
-                        <div>
-                            <span>Group 1 (Choose one):</span>
-                            <div class="radio-group">
-                                <label><input type="radio" name="science_opt1" value="Biology" required> Biology</label>
-                                <label><input type="radio" name="science_opt1" value="Computer Science"> Computer Science</label>
-                            </div>
-                        </div>
-                        <div>
-                            <span>Group 2 (Choose one):</span>
-                            <div class="radio-group">
-                                <label><input type="radio" name="science_opt2" value="Mathematics" required> Mathematics</label>
-                                <label><input type="radio" name="science_opt2" value="Social Studies"> Social Studies</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        } else if (faculty === 'management') {
-            area.innerHTML = `
-                <div class="subjects-card animate-in">
-                    <div>
-                        <strong>Compulsory Subjects (Management):</strong>
-                        <ul>
-                            <li>English</li>
-                            <li>Nepali</li>
-                            <li>Accountancy</li>
-                            <li>Economics</li>
-                        </ul>
-                    </div>
-                    <div class="optional-group">
-                        <strong>Optional Subjects:</strong>
-                        <div>
-                            <span>Group 1 (Choose one):</span>
-                            <div class="radio-group">
-                                <label><input type="radio" name="mgmt_opt1" value="Business Studies" required> Business Studies</label>
-                                <label><input type="radio" name="mgmt_opt1" value="Hotel Management"> Hotel Management</label>
-                            </div>
-                        </div>
-                        <div>
-                            <span>Group 2 (Choose one):</span>
-                            <div class="radio-group">
-                                <label><input type="radio" name="mgmt_opt2" value="Computer Science" required> Computer Science</label>
-                                <label><input type="radio" name="mgmt_opt2" value="Travel & Tourism"> Travel & Tourism</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
+        // Star Canvas
+        const canvas = document.getElementById('star-canvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+
+        // Falling Roses Canvas
+        const roseCanvas = document.getElementById('falling-roses-canvas');
+        const roseCtx = roseCanvas.getContext('2d');
+        let fallingRoses = [];
+
+        function resizeCanvas() {
+            canvas.width = roseCanvas.width = window.innerWidth;
+            canvas.height = roseCanvas.height = window.innerHeight;
         }
-    }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Star {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2;
+                this.speed = (Math.random() * 0.3) + 0.1;
+                this.alpha = Math.random();
+                this.fadeSpeed = Math.random() * 0.01;
+            }
+            update() {
+                this.y += this.speed;
+                this.alpha += this.fadeSpeed;
+                if (this.alpha > 1 || this.alpha < 0) this.fadeSpeed *= -1;
+                if (this.y > canvas.height) this.y = -10;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(251, 192, 45, ${Math.abs(this.alpha)})`;
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+            }
+        }
+
+        class FallingRose {
+            constructor() {
+                this.x = Math.random() * roseCanvas.width;
+                this.y = -50 - (Math.random() * 500);
+                this.size = 20 + Math.random() * 30;
+                this.speed = 1 + Math.random() * 2;
+                this.rotation = Math.random() * 360;
+                this.rotSpeed = (Math.random() - 0.5) * 2;
+                this.swing = Math.random() * 2;
+                this.swingSpeed = 0.02 + Math.random() * 0.05;
+                this.swingOffset = Math.random() * Math.PI * 2;
+            }
+            update() {
+                this.y += this.speed;
+                this.rotation += this.rotSpeed;
+                this.x += Math.sin(this.y * this.swingSpeed + this.swingOffset) * this.swing;
+                if (this.y > roseCanvas.height + 50) {
+                    this.y = -50;
+                    this.x = Math.random() * roseCanvas.width;
+                }
+            }
+            draw() {
+                roseCtx.save();
+                roseCtx.translate(this.x, this.y);
+                roseCtx.rotate(this.rotation * Math.PI / 180);
+                roseCtx.font = `${this.size}px serif`;
+                roseCtx.textAlign = 'center';
+                roseCtx.textBaseline = 'middle';
+                roseCtx.fillText('🌹', 0, 0);
+                roseCtx.restore();
+            }
+        }
+
+        for (let i = 0; i < 120; i++) stars.push(new Star());
+        for (let i = 0; i < 40; i++) fallingRoses.push(new FallingRose());
+
+        function animateGlobal() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            stars.forEach(s => { s.update(); s.draw(); });
+            
+            if (roseCanvas.style.opacity === '1') {
+                roseCtx.clearRect(0, 0, roseCanvas.width, roseCanvas.height);
+                fallingRoses.forEach(r => { r.update(); r.draw(); });
+            }
+            requestAnimationFrame(animateGlobal);
+        }
+        animateGlobal();
+
+        const getUrl = (id) => `https://lh3.googleusercontent.com/d/${id}=w1000?authuser=0`;
+
+        const memories = [
+            { msg: "You In This Black Sari - Ufff 😭😭😭❤️", id: "1PUkoWK10lRIhL4CpS75SP2miiQTUZG64" },
+            { msg: "This Smile ❤️", id: "1RfiryDNKE-6sTupJgEJVLFF4gAcvxRIk" },
+            { msg: "Daari Wali Jaini", id: "1vnV7osGu1gzL2ebiwyKlPWi6ZmPnnYAu" },
+            { msg: "Our First Pic In School Dress", id: "1lGlND0dC50eEaEPpObPPiN9Ywru_CkPy" },
+            { msg: "Hamro Peace Treaty 😂😭❤️", id: "1EFp_Xrz95XayoY9dZkGtSAz1nohBwXXw" },
+            { msg: "Us At Manakamana", id: "1pFBAhzjbvVUU2bp9RcbA7YF90GsxdlKA" },
+            { msg: "The Day Hamare Ghar Wale Chining Uh 🙂❤️", id: "1N-32gSkueiP6bIeEjpROWzJ5kfEUU2wp" },
+            { msg: "Bigrya Phone Ma K Herdai Ho Khaiii🙂", id: "1EHKZYct1YEwCbCU958eOHVUfBNTnnkJV" },
+            { msg: "Us In Cultural", id: "1CcAgAfjM5jIz6kDFRUMd5e28l8C0g3J0" },
+            { msg: "Dameyyy Ko Narzo 30 Bata Leko Pic", id: "1HJw25QSGXgmsbZHzw6InXyKhe8CZnxJs" },
+            { msg: "Oyeee Ko Ho Yo..?? 😂❤️", id: "1aXo3TKs4O6CaO-fhkRAgqYRHeVjp2lV4" },
+            { msg: "Heart Bananeki Kosish❤️", id: "1AqZehA_mTBpQnI6nfonWwJ-JKyIaCm2J" },
+            { msg: "Current Us Ekdam Babal❤️", id: "1aCt8BTCc-K8TBUFesP47y6chWHtY4AWD" }
+        ];
+
+        document.getElementById('startBtn').onclick = function() {
+            this.style.display = 'none';
+            const fill = document.getElementById('raceFill');
+            let width = 0;
+            
+            // Interaction to unlock audio context
+            audio.play().catch(() => {
+                console.log("Audio waiting for more interaction...");
+            });
+
+            const interval = setInterval(() => {
+                width += 1.5; fill.style.width = width + '%';
+                if(width >= 100) { 
+                    clearInterval(interval); 
+                    transitionToHeart(); 
+                }
+            }, 30);
+        };
+
+        function transitionToHeart() {
+            document.getElementById('volume-screen').style.transform = 'translateY(-100%)';
+            const heartScreen = document.getElementById('heart-screen');
+            heartScreen.style.display = 'flex';
+            setTimeout(() => heartScreen.style.opacity = '1', 100);
+        }
+
+        document.getElementById('heartTrigger').onclick = function() {
+            // Stronger attempt to play audio on this interaction
+            audio.play();
+            explodeHeart();
+        };
+
+        function explodeHeart() {
+            const heart = document.querySelector('.heart-container');
+            heart.style.transition = '0.6s'; heart.style.transform = 'scale(50)'; heart.style.opacity = '0';
+            setTimeout(() => { document.getElementById('heart-screen').style.display = 'none'; initSpace(); }, 500);
+        }
+
+        class Rose {
+            constructor(index) {
+                this.index = index;
+                this.element = document.createElement('div');
+                this.element.className = 'floating-rose';
+                this.element.innerHTML = '🌹';
+                this.radius = ROSE_SIZE / 2;
+                this.x = Math.random() * (window.innerWidth - ROSE_SIZE);
+                this.y = 150 + Math.random() * (window.innerHeight - 250);
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.vy = (Math.random() - 0.5) * 1.5;
+                this.isPopped = false;
+                this.element.onclick = () => this.pop();
+                document.getElementById('roseContainer').appendChild(this.element);
+            }
+            update() {
+                if (this.isPopped) return;
+                this.x += this.vx; this.y += this.vy;
+                if (this.x <= 0 || this.x >= window.innerWidth - ROSE_SIZE) this.vx *= -1;
+                if (this.y <= 130 || this.y >= window.innerHeight - ROSE_SIZE) this.vy *= -1;
+                this.element.style.transform = `translate(${this.x}px, ${this.y}px)`;
+            }
+            pop() {
+                if (this.isPopped) return;
+                this.isPopped = true;
+                this.element.classList.add('pop-out');
+                setTimeout(() => {
+                    this.element.style.display = 'none';
+                    showModal(this.index);
+                }, 350);
+            }
+        }
+
+        function initSpace() {
+            document.getElementById('space-screen').style.display = 'block';
+            setTimeout(() => document.getElementById('space-screen').style.opacity = '1', 100);
+            memories.forEach((_, i) => roseObjects.push(new Rose(i)));
+            animateRoses();
+        }
+
+        function animateRoses() {
+            roseObjects.forEach(rose => {
+                rose.update();
+                roseObjects.forEach(other => {
+                    if (rose === other || rose.isPopped || other.isPopped) return;
+                    const dx = (rose.x + rose.radius) - (other.x + other.radius);
+                    const dy = (rose.y + rose.radius) - (other.y + other.radius);
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < ROSE_SIZE) {
+                        const angle = Math.atan2(dy, dx);
+                        const cos = Math.cos(angle);
+                        const sin = Math.sin(angle);
+                        let tx = rose.vx; let ty = rose.vy;
+                        rose.vx = other.vx; rose.vy = other.vy;
+                        other.vx = tx; other.vy = ty;
+                        const overlap = ROSE_SIZE - distance;
+                        rose.x += cos * (overlap / 2); rose.y += sin * (overlap / 2);
+                        other.x -= cos * (overlap / 2); other.y -= sin * (overlap / 2);
+                    }
+                });
+            });
+            animationId = requestAnimationFrame(animateRoses);
+        }
+
+        function showModal(index) {
+            cancelAnimationFrame(animationId);
+            const modal = document.getElementById('photoModal');
+            const imgEl = document.getElementById('modalImg');
+            imgEl.style.opacity = '0';
+            imgEl.src = getUrl(memories[index].id);
+            document.getElementById('modalMsg').innerText = memories[index].msg;
+            imgEl.onload = () => {
+                document.getElementById('loadingText').style.display = 'none';
+                imgEl.style.opacity = '1';
+                imgEl.style.transition = 'opacity 0.5s';
+            };
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('photoModal').style.display = 'none';
+            document.getElementById('loadingText').style.display = 'block';
+            rosesCollected++;
+            if(rosesCollected === 1) {
+                document.getElementById('spaceStory').innerText = "But each rose contains a beautiful memory of us... collect them all and just remember that moment when those memories were captured ❤️";
+            }
+            if(rosesCollected === memories.length) showFinale();
+            else animateRoses();
+        }
+
+        function showFinale() {
+            cancelAnimationFrame(animationId);
+            document.getElementById('space-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('space-screen').style.display = 'none';
+                const finale = document.getElementById('finale-screen');
+                finale.style.display = 'flex';
+                roseCanvas.style.opacity = '1'; 
+                setTimeout(() => finale.style.opacity = '1', 100);
+            }, 800);
+        }
     </script>
 </body>
 </html>
+
