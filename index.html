@@ -221,7 +221,7 @@
     <div id="volume-screen">
         <div class="volume-card">
             <div class="volume-icon">❤️</div>
-            <p class="fucchi-msg">Hii fucchi, I have made something small but very beautiful for youuu Now Turn Up the Volume and Interact Halkaa</p>
+            <p class="fucchi-msg">hii fucchi I have made something small but very beautiful for youuu now turn up the volume and interact halkaa</p>
             <div class="race-bar-container"><div class="race-bar-fill" id="raceFill"></div></div>
             <button class="btn-main" id="startBtn">START THE MAGIC</button>
             <p id="audio-status">Waiting for the melody... 🎵</p>
@@ -477,4 +477,64 @@
         }
 
         function animateRoses() {
-   
+            roseObjects.forEach(rose => {
+                rose.update();
+                roseObjects.forEach(other => {
+                    if (rose === other || rose.isPopped || other.isPopped) return;
+                    const dx = (rose.x + rose.radius) - (other.x + other.radius);
+                    const dy = (rose.y + rose.radius) - (other.y + other.radius);
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < ROSE_SIZE) {
+                        const angle = Math.atan2(dy, dx);
+                        const cos = Math.cos(angle);
+                        const sin = Math.sin(angle);
+                        let tx = rose.vx; let ty = rose.vy;
+                        rose.vx = other.vx; rose.vy = other.vy;
+                        other.vx = tx; other.vy = ty;
+                        const overlap = ROSE_SIZE - distance;
+                        rose.x += cos * (overlap / 2); rose.y += sin * (overlap / 2);
+                        other.x -= cos * (overlap / 2); other.y -= sin * (overlap / 2);
+                    }
+                });
+            });
+            animationId = requestAnimationFrame(animateRoses);
+        }
+
+        function showModal(index) {
+            cancelAnimationFrame(animationId);
+            const modal = document.getElementById('photoModal');
+            const imgEl = document.getElementById('modalImg');
+            imgEl.style.opacity = '0';
+            imgEl.src = getUrl(memories[index].id);
+            document.getElementById('modalMsg').innerText = memories[index].msg;
+            imgEl.onload = () => {
+                document.getElementById('loadingText').style.display = 'none';
+                imgEl.style.opacity = '1';
+                imgEl.style.transition = 'opacity 0.8s';
+            };
+            modal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('photoModal').style.display = 'none';
+            document.getElementById('loadingText').style.display = 'block';
+            rosesCollected++;
+            if(rosesCollected === memories.length) showFinale();
+            else animateRoses();
+        }
+
+        function showFinale() {
+            cancelAnimationFrame(animationId);
+            document.getElementById('space-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('space-screen').style.display = 'none';
+                const finale = document.getElementById('finale-screen');
+                finale.style.display = 'flex';
+                roseCanvas.style.opacity = '1'; 
+                setTimeout(() => finale.style.opacity = '1', 200);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
+
