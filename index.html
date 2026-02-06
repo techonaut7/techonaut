@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>For My Jainu 🌹</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Cinzel:wght@400;700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
     <style>
@@ -23,7 +23,8 @@
             overflow: hidden;
             height: 100vh;
             width: 100vw;
-            background: radial-gradient(circle at center, #3d0a0a 0%, #080202 100%);
+            background: #000; /* Pure Black Theme Restored */
+            position: fixed;
         }
 
         #star-canvas, #falling-roses-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 1; }
@@ -33,40 +34,40 @@
         #volume-screen {
             position: fixed; inset: 0; background: #000; z-index: 10000;
             display: flex; flex-direction: column; justify-content: center;
-            align-items: center; text-align: center; padding: 30px;
+            align-items: center; text-align: center; padding: 20px;
             transition: transform 1.2s cubic-bezier(0.85, 0, 0.15, 1);
         }
 
         .volume-card {
             background: var(--glass);
-            border: 1px solid rgba(251, 192, 45, 0.2);
-            padding: 40px 30px;
+            border: 1px solid rgba(229, 57, 53, 0.3);
+            padding: 30px 20px;
             border-radius: 30px;
             backdrop-filter: blur(10px);
-            max-width: 400px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            max-width: 400px; width: 100%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
         }
 
-        .volume-icon { font-size: 5rem; margin-bottom: 20px; filter: drop-shadow(0 0 20px var(--rose-red)); animation: pulse 2s infinite; }
+        .volume-icon { font-size: 4rem; margin-bottom: 15px; filter: drop-shadow(0 0 20px var(--rose-red)); animation: pulse 2s infinite; }
         
         @keyframes pulse {
             0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.15); opacity: 0.9; }
+            50% { transform: scale(1.1); opacity: 0.9; }
         }
 
         .fucchi-msg {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: #eee;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             line-height: 1.4;
         }
 
         .race-bar-container {
             width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px;
-            margin: 25px 0; overflow: hidden;
+            margin: 20px 0; overflow: hidden;
         }
-        .race-bar-fill { width: 0%; height: 100%; background: var(--gold); box-shadow: 0 0 15px var(--gold); transition: width 0.3s; }
+        .race-bar-fill { width: 0%; height: 100%; background: var(--rose-red); box-shadow: 0 0 15px var(--rose-red); transition: width 0.3s; }
 
         /* --- HEART SCREEN --- */
         #heart-screen {
@@ -76,7 +77,7 @@
         }
 
         .heart-container {
-            position: relative; width: 150px; height: 150px; cursor: pointer;
+            position: relative; width: 120px; height: 120px; cursor: pointer;
             filter: drop-shadow(0 0 30px var(--rose-red));
         }
         .heart-shape {
@@ -93,7 +94,7 @@
         #space-screen { display: none; position: relative; width: 100%; height: 100%; opacity: 0; transition: opacity 2s; z-index: 5;}
 
         .floating-rose {
-            position: absolute; font-size: 3.5rem; cursor: pointer;
+            position: absolute; font-size: 3rem; cursor: pointer;
             filter: drop-shadow(0 0 15px var(--rose-red)); z-index: 10; 
             user-select: none; will-change: transform;
         }
@@ -105,30 +106,30 @@
         }
 
         .narrative-box {
-            position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+            position: absolute; top: 15px; left: 50%; transform: translateX(-50%);
             width: 90%; max-width: 600px; text-align: center; z-index: 20;
-            padding: 20px; background: rgba(0,0,0,0.6); border-radius: 20px;
-            backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px; background: rgba(0,0,0,0.8); border-radius: 20px;
+            backdrop-filter: blur(5px); border: 1px solid rgba(229,57,53,0.3);
         }
 
         .narrative-text {
-            font-family: 'Dancing Script', cursive; font-size: 1.3rem; color: #ffccd5;
-            line-height: 1.4;
+            font-family: 'Dancing Script', cursive; font-size: 1.1rem; color: #ffccd5;
+            line-height: 1.3;
         }
 
         /* --- MODAL --- */
         .modal {
             position: fixed; inset: 0; background: rgba(0,0,0,0.95);
             display: none; justify-content: center; align-items: center;
-            z-index: 20000; padding: 20px;
+            z-index: 20000; padding: 15px;
         }
         .modal-content {
-            background: #120505; padding: 25px; border-radius: 30px;
-            border: 1px solid var(--gold); text-align: center;
-            max-width: 450px; width: 100%; box-shadow: 0 0 50px rgba(251, 192, 45, 0.15);
+            background: #000; padding: 20px; border-radius: 30px;
+            border: 1px solid var(--rose-red); text-align: center;
+            max-width: 450px; width: 100%; box-shadow: 0 0 50px rgba(229, 57, 53, 0.2);
         }
         .modal-img {
-            width: 100%; max-height: 55vh; object-fit: contain;
+            width: 100%; max-height: 45vh; object-fit: contain;
             border-radius: 20px; background: #111; border: 1px solid #333;
         }
 
@@ -136,11 +137,11 @@
         #finale-screen {
             display: none; flex-direction: column; justify-content: center;
             align-items: center; height: 100%; text-align: center; opacity: 0;
-            padding: 20px; z-index: 10;
+            padding: 10px; z-index: 10;
         }
 
         .giant-emoji-rose {
-            font-size: 10rem; margin-bottom: 20px;
+            font-size: clamp(4rem, 12vh, 6rem); margin-bottom: 5px;
             filter: drop-shadow(0 0 30px var(--rose-red));
             animation: float-rose 3.5s ease-in-out infinite;
             z-index: 15;
@@ -148,17 +149,21 @@
 
         @keyframes float-rose {
             0%, 100% { transform: translateY(0) rotate(0); }
-            50% { transform: translateY(-25px) rotate(8deg); }
+            50% { transform: translateY(-10px) rotate(8deg); }
         }
 
         .btn-main {
-            background: var(--gold); border: none;
-            color: #000; padding: 15px 40px; font-family: 'Cinzel', serif;
+            background: var(--rose-red); border: none;
+            color: #fff; padding: 10px 25px; font-family: 'Cinzel', serif;
             font-weight: 700; border-radius: 50px; cursor: pointer;
-            margin-top: 25px; transition: 0.4s; letter-spacing: 1px;
-            z-index: 20;
+            margin-top: 10px; transition: 0.4s; letter-spacing: 1px;
+            z-index: 20; font-size: 0.8rem;
         }
-        .btn-main:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--gold); }
+        .btn-main:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--rose-red); }
+
+        .finale-title { font-family:'Dancing Script'; font-size: 1.8rem; color:var(--soft-pink); margin-bottom: 2px; }
+        .finale-subtitle { font-family:'Cinzel'; color:var(--rose-red); margin-bottom: 8px; font-size: 1rem; letter-spacing: 1px; }
+        .finale-desc { padding:0 15px; font-family:'Dancing Script'; max-width:400px; color:#fff; line-height: 1.3; font-size: 1.05rem; }
 
     </style>
 </head>
@@ -167,7 +172,6 @@
     <canvas id="star-canvas"></canvas>
     <canvas id="falling-roses-canvas"></canvas>
 
-    <!-- Use a direct stream link for Google Drive via a proxy service -->
     <audio id="bgMusic" loop preload="auto">
         <source src="https://drive.google.com/uc?export=download&id=136qhu9wSYdba5TWYRcE8H5vwYd2CkzDi" type="audio/mpeg">
     </audio>
@@ -183,7 +187,7 @@
 
     <div id="heart-screen">
         <div class="heart-container" id="heartTrigger"><div class="heart-shape"></div></div>
-        <h2 style="font-family:'Dancing Script'; font-size: 2.2rem; margin-top: 40px; color: #ffccd5;">Open My Heart...</h2>
+        <h2 style="font-family:'Dancing Script'; font-size: 1.8rem; margin-top: 30px; color: #ffccd5;">Open My Heart...</h2>
     </div>
 
     <div id="space-screen">
@@ -191,7 +195,7 @@
             <p class="narrative-text" id="spaceStory">
                 ohhh wait k ho yo..?? Roses in my heart..? Huh..?? Waaa collect them all jenishi all for youuuuu 😂❤️
             </p>
-            <p style="font-size: 0.85rem; margin-top: 10px; color: var(--gold); opacity: 0.8;">
+            <p style="font-size: 0.7rem; margin-top: 3px; color: var(--rose-red); opacity: 0.8;">
                 Click each rose to relive a memory
             </p>
         </div>
@@ -200,18 +204,18 @@
 
     <div class="modal" id="photoModal">
         <div class="modal-content">
-            <div id="loadingText" style="color: var(--gold); margin-bottom: 15px; font-size: 0.9rem;">Capturing memory...</div>
+            <div id="loadingText" style="color: var(--rose-red); margin-bottom: 10px; font-size: 0.8rem;">Capturing memory...</div>
             <img id="modalImg" src="" class="modal-img">
-            <p id="modalMsg" style="font-family:'Dancing Script'; font-size:1.6rem; margin: 20px 0; color: #ffccd5;"></p>
-            <button class="btn-main" style="padding: 10px 25px;" onclick="closeModal()">Back to my heart 🌹</button>
+            <p id="modalMsg" style="font-family:'Dancing Script'; font-size:1.2rem; margin: 12px 0; color: #ffccd5;"></p>
+            <button class="btn-main" style="padding: 8px 20px; font-size: 0.75rem;" onclick="closeModal()">Back to my heart 🌹</button>
         </div>
     </div>
 
     <div id="finale-screen">
         <div class="giant-emoji-rose">🌹</div>
-        <h1 style="font-family:'Dancing Script'; font-size: 3.5rem; color:var(--soft-pink); text-shadow: 0 0 20px rgba(229, 57, 53, 0.4);">Happy Rose Day</h1>
-        <h2 style="font-family:'Cinzel'; color:var(--gold); margin-bottom: 20px; font-size: 1.8rem; letter-spacing: 2px;">Meri Pyari Jainu</h2>
-        <p style="padding:0 25px; font-family:'Dancing Script'; max-width:550px; color:#fff; line-height: 1.6; font-size: 1.5rem;">
+        <h1 class="finale-title">Happy Rose Day</h1>
+        <h2 class="finale-subtitle">Meri Pyari Jainu</h2>
+        <p class="finale-desc">
             "Every single rose you just collected represents a beautiful moment of us. These memories are the most precious things I carry in my heart. Happy Rose Day, my favorite person."
         </p>
         <button class="btn-main" onclick="location.reload()">REPLAY THE MAGIC? ❤️</button>
@@ -222,14 +226,12 @@
         let rosesCollected = 0;
         let animationId;
         const roseObjects = [];
-        const ROSE_SIZE = 60; 
+        const ROSE_SIZE = 50; 
 
-        // Star Canvas
         const canvas = document.getElementById('star-canvas');
         const ctx = canvas.getContext('2d');
         let stars = [];
 
-        // Falling Roses Canvas
         const roseCanvas = document.getElementById('falling-roses-canvas');
         const roseCtx = roseCanvas.getContext('2d');
         let fallingRoses = [];
@@ -258,7 +260,7 @@
                 if (this.y > canvas.height) this.y = -10;
             }
             draw() {
-                ctx.fillStyle = `rgba(251, 192, 45, ${Math.abs(this.alpha)})`;
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(this.alpha)})`;
                 ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
             }
         }
@@ -267,12 +269,12 @@
             constructor() {
                 this.x = Math.random() * roseCanvas.width;
                 this.y = -50 - (Math.random() * 500);
-                this.size = 20 + Math.random() * 30;
-                this.speed = 1 + Math.random() * 2;
+                this.size = 15 + Math.random() * 25;
+                this.speed = 0.8 + Math.random() * 1.5;
                 this.rotation = Math.random() * 360;
-                this.rotSpeed = (Math.random() - 0.5) * 2;
-                this.swing = Math.random() * 2;
-                this.swingSpeed = 0.02 + Math.random() * 0.05;
+                this.rotSpeed = (Math.random() - 0.5) * 1.5;
+                this.swing = Math.random() * 1.5;
+                this.swingSpeed = 0.02 + Math.random() * 0.04;
                 this.swingOffset = Math.random() * Math.PI * 2;
             }
             update() {
@@ -296,8 +298,8 @@
             }
         }
 
-        for (let i = 0; i < 120; i++) stars.push(new Star());
-        for (let i = 0; i < 40; i++) fallingRoses.push(new FallingRose());
+        for (let i = 0; i < 80; i++) stars.push(new Star());
+        for (let i = 0; i < 30; i++) fallingRoses.push(new FallingRose());
 
         function animateGlobal() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -334,10 +336,7 @@
             const fill = document.getElementById('raceFill');
             let width = 0;
             
-            // Interaction to unlock audio context
-            audio.play().catch(() => {
-                console.log("Audio waiting for more interaction...");
-            });
+            audio.play().catch(() => console.log("Waiting for interaction"));
 
             const interval = setInterval(() => {
                 width += 1.5; fill.style.width = width + '%';
@@ -356,7 +355,6 @@
         }
 
         document.getElementById('heartTrigger').onclick = function() {
-            // Stronger attempt to play audio on this interaction
             audio.play();
             explodeHeart();
         };
@@ -375,9 +373,9 @@
                 this.element.innerHTML = '🌹';
                 this.radius = ROSE_SIZE / 2;
                 this.x = Math.random() * (window.innerWidth - ROSE_SIZE);
-                this.y = 150 + Math.random() * (window.innerHeight - 250);
-                this.vx = (Math.random() - 0.5) * 1.5;
-                this.vy = (Math.random() - 0.5) * 1.5;
+                this.y = 120 + Math.random() * (window.innerHeight - 200);
+                this.vx = (Math.random() - 0.5) * 1.3;
+                this.vy = (Math.random() - 0.5) * 1.3;
                 this.isPopped = false;
                 this.element.onclick = () => this.pop();
                 document.getElementById('roseContainer').appendChild(this.element);
@@ -386,7 +384,7 @@
                 if (this.isPopped) return;
                 this.x += this.vx; this.y += this.vy;
                 if (this.x <= 0 || this.x >= window.innerWidth - ROSE_SIZE) this.vx *= -1;
-                if (this.y <= 130 || this.y >= window.innerHeight - ROSE_SIZE) this.vy *= -1;
+                if (this.y <= 110 || this.y >= window.innerHeight - ROSE_SIZE) this.vy *= -1;
                 this.element.style.transform = `translate(${this.x}px, ${this.y}px)`;
             }
             pop() {
@@ -451,7 +449,7 @@
             document.getElementById('loadingText').style.display = 'block';
             rosesCollected++;
             if(rosesCollected === 1) {
-                document.getElementById('spaceStory').innerText = "But each rose contains a beautiful memory of us... collect them all and just remember that moment when those memories were captured ❤️";
+                document.getElementById('spaceStory').innerText = "But each rose contains a beautiful memory of us... collect them all! ❤️";
             }
             if(rosesCollected === memories.length) showFinale();
             else animateRoses();
