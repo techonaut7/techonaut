@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -191,29 +192,45 @@
             </button>
         </section>
 
-        <!-- GALLERY STAGE -->
+        <!-- GALLERY STAGE (Kept original 3-phase structure as requested) -->
         <section id="gallery" class="stage pt-16 pb-24">
             <div class="flex items-center gap-2 mb-8 justify-center">
                 <span class="text-rose-500 text-2xl">⏳</span>
                 <h2 class="text-2xl font-serif font-bold text-rose-800">Our Phases Together</h2>
             </div>
             <div class="space-y-12 w-full max-w-xs mx-auto">
+                <!-- Childhood Phase (AI Merged) -->
                 <div class="group bg-white p-4 pb-8 shadow-2xl border border-gray-100 transform -rotate-2 hover:rotate-0 transition-all duration-500">
                     <div class="w-full h-64 bg-rose-100 rounded mb-4 overflow-hidden">
                         <img src="https://lh3.googleusercontent.com/d/1RLtYRMMa4AFZ1YBwjMy1rtGU5qLCtZKh" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-center font-serif text-rose-600 italic text-lg leading-tight mb-1">The AI Merged Us Early ❤️</p>
+                    <p class="text-center font-serif text-rose-600 italic text-lg leading-tight mb-1">Childhood: The AI Merged Us Early ❤️</p>
+                    <p class="text-[10px] text-center text-rose-400 uppercase tracking-widest font-bold opacity-60 italic text-center">"Merged from separate pics, unified in soul."</p>
                 </div>
+
+                <!-- School Phase -->
                 <div class="group bg-white p-4 pb-8 shadow-2xl border border-gray-100 transform rotate-2 hover:rotate-0 transition-all duration-500">
                     <div class="w-full h-64 bg-rose-100 rounded mb-4 overflow-hidden">
                         <img src="https://lh3.googleusercontent.com/d/1R7lNZkA5G3CKTtwhx0lUPklID8glY4nu" class="w-full h-full object-cover">
                     </div>
-                    <p class="text-center font-serif text-rose-600 italic text-lg leading-tight mb-1">Where it genuinely began...</p>
+                    <p class="text-center font-serif text-rose-600 italic text-lg leading-tight mb-1">School Days: When it began</p>
+                    <p class="text-[10px] text-center text-rose-400 uppercase tracking-widest font-bold opacity-60 italic text-center">"The moment we genuinely started going on."</p>
+                </div>
+
+                <!-- Current Phase -->
+                <div class="group bg-white p-4 pb-8 shadow-2xl border border-gray-100 transform -rotate-1 hover:rotate-0 transition-all duration-500">
+                    <div class="w-full h-64 bg-rose-100 rounded mb-4 overflow-hidden">
+                        <img src="https://lh3.googleusercontent.com/d/14W0zbqpEtjeDPKrZ6WRL4BRQPDbNZSRK" class="w-full h-full object-cover">
+                    </div>
+                    <p class="text-center font-serif text-rose-600 italic text-lg leading-tight mb-1">Current Us: Stronger than ever</p>
+                    <p class="text-[10px] text-center text-rose-400 uppercase tracking-widest font-bold opacity-60 italic text-center">"Forever & Always with you."</p>
                 </div>
             </div>
-            <button onclick="goToStage('gift')" class="mt-12 px-10 py-4 bg-rose-500 text-white rounded-full font-bold shadow-2xl flex items-center gap-2 active:scale-95 mx-auto">
-                The Final Surprise 🎁
-            </button>
+            <div class="py-12 flex justify-center">
+                <button onclick="goToStage('gift')" class="px-10 py-4 bg-rose-500 text-white rounded-full font-bold shadow-2xl flex items-center gap-2 active:scale-95 transition-transform">
+                    The Final Surprise 🎁
+                </button>
+            </div>
         </section>
 
         <!-- GIFT STAGE -->
@@ -255,7 +272,7 @@
         const nicknames = ["Jaini", "Maya", "Jainu", "Kanxu", "Fucchu", "Cutie Pie"];
         const foreverWords = ["Forever", "Together", "Love", "Infinity", "Soulmate", "You & Me", "My Queen", "Jainu Maya"];
         
-        // Comprehensive Photo List
+        // Comprehensive Photo List for the Forever Stage (All 29 Unique Photos)
         const photoUrls = [
             "https://lh3.googleusercontent.com/d/1RLtYRMMa4AFZ1YBwjMy1rtGU5qLCtZKh",
             "https://lh3.googleusercontent.com/d/1R7lNZkA5G3CKTtwhx0lUPklID8glY4nu",
@@ -288,7 +305,6 @@
             "https://lh3.googleusercontent.com/d/15Do9HvSHLD4z531-jk4vxpmd-tXTZD4G"
         ];
 
-        // Queue Logic: Shuffle once at start, then cycle
         let photoQueue = [...photoUrls].sort(() => Math.random() - 0.5);
         let currentNicknameIdx = 0;
         let loveLevel = 0;
@@ -313,9 +329,7 @@
 
         function startForever() {
             goToStage('final');
-            // Spawn hearts/words/photos every 400ms
             foreverTimer = setInterval(spawnForeverElement, 450);
-            // Initial burst
             for(let i=0; i<10; i++) setTimeout(spawnForeverElement, i * 150);
         }
 
@@ -326,16 +340,13 @@
             const roll = Math.random();
             const el = document.createElement('div');
             
-            // Positioning Logic
             const left = Math.random() * 80 + 10; 
             const duration = Math.random() * 6 + 7; 
             const drift = (Math.random() - 0.5) * 300;
 
-            // 50% Photo, 50% Text/Heart
-            if (roll > 0.5) {
-                // PHOTO LOGIC: Get from queue, show once, move to back of queue
+            if (roll > 0.4) {
                 const url = photoQueue.shift();
-                photoQueue.push(url); // Add to end so it cycles infinitely without repetition
+                photoQueue.push(url);
 
                 el.className = 'photo-bubble animate-float-forever';
                 const img = document.createElement('img');
@@ -345,11 +356,10 @@
                 img.onerror = () => el.remove();
                 el.appendChild(img);
                 
-                const size = Math.random() * 60 + 100; // 100px to 160px
+                const size = Math.random() * 60 + 100;
                 el.style.width = `${size}px`;
                 el.style.height = `${size}px`;
             } else {
-                // TEXT/HEART LOGIC
                 el.className = 'absolute text-white font-royal italic animate-float-forever whitespace-nowrap drop-shadow-xl z-[40]';
                 const isHeart = Math.random() > 0.6;
                 el.innerText = isHeart ? '❤️' : foreverWords[Math.floor(Math.random() * foreverWords.length)];
@@ -377,14 +387,12 @@
             goToStage('welcome');
         }
 
-        // Nickname Ticker
         setInterval(() => {
             currentNicknameIdx = (currentNicknameIdx + 1) % nicknames.length;
             const el = document.getElementById('nicknameDisplay');
             if (el) el.innerText = nicknames[currentNicknameIdx];
         }, 2000);
 
-        // Background Hearts
         function createHeart() {
             const container = document.getElementById('heartContainer');
             if (!container) return;
@@ -417,3 +425,5 @@
     </script>
 </body>
 </html>
+
+```
