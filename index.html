@@ -56,8 +56,9 @@
         .animate-bounce-slow { animation: bounce-slow 3s infinite ease-in-out; }
         .animate-reveal { animation: reveal-crown 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
         
+        /* Fixed stage visibility logic */
         .stage { display: none; min-height: 100vh; width: 100%; position: relative; }
-        .stage.active { display: flex; flex-direction: column; align-items: center; justify-content: center; animation: fade-in 0.8s ease-out; }
+        .stage.active { display: flex !important; flex-direction: column; align-items: center; justify-content: center; animation: fade-in 0.8s ease-out; }
         
         .heart-bg {
             position: fixed;
@@ -66,17 +67,17 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
         }
 
         .photo-bubble {
-            border-radius: 50%;
-            border: 4px solid rgba(255, 255, 255, 0.7);
-            box-shadow: 0 0 25px rgba(255, 182, 193, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            border: 4px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             overflow: hidden;
             position: absolute;
             background: white;
-            backdrop-filter: blur(2px);
+            z-index: 50;
         }
 
         #vibe-check {
@@ -87,6 +88,7 @@
         #final {
             background: linear-gradient(to bottom, #9f1239, #f43f5e, #fb7185);
             overflow: hidden;
+            z-index: 200;
         }
     </style>
 </head>
@@ -212,18 +214,16 @@
             <div class="space-y-12 w-full max-w-xs mx-auto">
                 <div class="group bg-white p-4 pb-8 shadow-2xl border border-gray-100 transform -rotate-2 hover:rotate-0 transition-all duration-500">
                     <div class="w-full h-64 bg-rose-100 rounded mb-4 overflow-hidden">
-                        <img src="https://lh3.googleusercontent.com/d/1RLtYRMMa4AFZ1YBwjMy1rtGU5qLCtZKh" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=400'">
+                        <img src="https://lh3.googleusercontent.com/d/1RLtYRMMa4AFZ1YBwjMy1rtGU5qLCtZKh" class="w-full h-full object-cover">
                     </div>
                     <p class="text-center font-serif text-rose-600 italic text-lg leading-tight mb-1">Childhood: The AI Merged Us Early ❤️</p>
-                    <p class="text-[10px] text-center text-rose-400 uppercase tracking-widest font-bold opacity-60 italic text-center">"Destined before we even knew it."</p>
                 </div>
 
                 <div class="group bg-white p-4 pb-8 shadow-2xl border border-gray-100 transform rotate-2 hover:rotate-0 transition-all duration-500">
                     <div class="w-full h-64 bg-rose-100 rounded mb-4 overflow-hidden">
-                        <img src="https://lh3.googleusercontent.com/d/1R7lNZkA5G3CKTtwhx0lUPklID8glY4nu" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=400'">
+                        <img src="https://lh3.googleusercontent.com/d/1R7lNZkA5G3CKTtwhx0lUPklID8glY4nu" class="w-full h-full object-cover">
                     </div>
                     <p class="text-center font-serif text-rose-600 italic text-lg leading-tight mb-1">School Days: Where it genuinely began</p>
-                    <p class="text-[10px] text-center text-rose-400 uppercase tracking-widest font-bold opacity-60 italic text-center">"Uniforms, laughter, and a silent promise."</p>
                 </div>
             </div>
             
@@ -260,14 +260,14 @@
         </section>
 
         <!-- FINAL STAGE (INFINITE FLOATING) -->
-        <section id="final" class="stage !hidden active:!flex fixed inset-0 z-[100] w-full h-screen">
+        <section id="final" class="stage fixed inset-0">
             <div id="foreverLayer" class="absolute inset-0 pointer-events-none"></div>
             
-            <div class="z-20 text-center text-white px-6">
-                <h1 class="text-7xl font-royal font-bold mb-4 drop-shadow-lg animate-pulse">Happy Birthday Jainu</h1>
+            <div class="z-[300] text-center text-white px-6 relative pointer-events-none">
+                <h1 class="text-6xl md:text-7xl font-royal font-bold mb-4 drop-shadow-lg animate-pulse">Happy Birthday Jainu</h1>
                 <p class="text-2xl italic font-serif opacity-90 mb-8">Our Love is Infinite...</p>
                 
-                <button onclick="restart()" class="mt-8 px-6 py-2 bg-white/20 backdrop-blur-md border border-white/40 rounded-full text-xs uppercase tracking-widest font-bold hover:bg-white/40 transition-all text-white pointer-events-auto">
+                <button onclick="restart()" class="mt-8 px-8 py-3 bg-white/20 backdrop-blur-md border border-white/40 rounded-full text-sm uppercase tracking-widest font-bold hover:bg-white/40 transition-all text-white pointer-events-auto shadow-2xl">
                     Replay Our Magic
                 </button>
             </div>
@@ -315,44 +315,47 @@
             if (foreverTimer) { clearInterval(foreverTimer); foreverTimer = null; }
             document.querySelectorAll('.stage').forEach(s => {
                 s.classList.remove('active');
-                s.style.display = 'none';
             });
             const target = document.getElementById(stageId);
             target.classList.add('active');
-            target.style.display = 'flex';
             window.scrollTo(0, 0);
         }
 
         function startForever() {
             goToStage('final');
-            foreverTimer = setInterval(spawnForeverElement, 500);
-            for(let i=0; i<12; i++) setTimeout(spawnForeverElement, i * 200);
+            // Faster interval for a more "full" feeling
+            foreverTimer = setInterval(spawnForeverElement, 400);
+            // Instant initial burst
+            for(let i=0; i<15; i++) setTimeout(spawnForeverElement, i * 100);
         }
 
         function spawnForeverElement() {
             const layer = document.getElementById('foreverLayer');
             if (!layer) return;
 
+            // Higher chance for photos
             const isPhoto = Math.random() > 0.4;
             const el = document.createElement('div');
             
-            const left = Math.random() * 100;
-            const duration = Math.random() * 8 + 12;
-            const drift = (Math.random() - 0.5) * 300;
-            const size = isPhoto ? (Math.random() * 90 + 80) : (Math.random() * 20 + 20);
+            const left = Math.random() * 90 + 5; // keep away from edges
+            const duration = Math.random() * 5 + 8; // move up slightly faster
+            const drift = (Math.random() - 0.5) * 400;
+            const size = isPhoto ? (Math.random() * 100 + 100) : (Math.random() * 25 + 20);
 
             if (isPhoto) {
                 el.className = 'photo-bubble animate-float-forever';
                 const img = document.createElement('img');
                 img.src = photoUrls[Math.floor(Math.random() * photoUrls.length)];
                 img.className = 'w-full h-full object-cover';
+                img.onerror = () => el.remove();
                 el.appendChild(img);
                 el.style.width = `${size}px`;
                 el.style.height = `${size}px`;
             } else {
-                el.className = 'absolute text-white font-royal italic animate-float-forever whitespace-nowrap drop-shadow-lg';
+                el.className = 'absolute text-white font-royal italic animate-float-forever whitespace-nowrap drop-shadow-xl z-[40]';
                 el.innerText = foreverWords[Math.floor(Math.random() * foreverWords.length)];
                 el.style.fontSize = `${size}px`;
+                el.style.opacity = "0.9";
             }
 
             el.style.left = `${left}%`;
@@ -387,15 +390,15 @@
             if (!container) return;
             const heart = document.createElement('div');
             heart.innerText = '❤️';
-            heart.className = 'absolute text-rose-300 opacity-30 animate-float-up pointer-events-none';
+            heart.className = 'absolute text-rose-300 opacity-40 animate-float-up pointer-events-none';
             heart.style.left = `${Math.random() * 100}%`;
-            heart.style.fontSize = `${Math.random() * 15 + 10}px`;
-            heart.style.animationDuration = `${Math.random() * 2 + 4}s`;
-            heart.style.bottom = '-20px';
+            heart.style.fontSize = `${Math.random() * 20 + 15}px`;
+            heart.style.animationDuration = `${Math.random() * 2 + 5}s`;
+            heart.style.bottom = '-50px';
             container.appendChild(heart);
-            setTimeout(() => heart.remove(), 6000);
+            setTimeout(() => heart.remove(), 7000);
         }
-        setInterval(createHeart, 800);
+        setInterval(createHeart, 600);
 
         function increaseLove() {
             loveLevel = Math.min(loveLevel + 10, 100);
