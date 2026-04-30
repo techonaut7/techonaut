@@ -19,6 +19,7 @@
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             background-color: white;
+            -webkit-tap-highlight-color: transparent;
         }
         .font-serif { font-family: 'Playfair Display', serif; }
         .font-cursive { font-family: 'Dancing Script', cursive; }
@@ -58,14 +59,18 @@
             z-index: 0;
         }
 
-        .loader-spin {
-            animation: spin-slow 1s linear infinite;
-        }
-
-        /* Fallback for image loading issues */
         img {
             background-color: #ffe4e6;
-            min-height: 200px;
+            object-fit: cover;
+        }
+
+        .loading-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .5; }
         }
     </style>
 </head>
@@ -176,28 +181,25 @@
                 <!-- Childhood Phase (Merged AI Pic) -->
                 <div class="group bg-white p-4 pb-10 shadow-2xl border border-gray-100 transform -rotate-2 hover:rotate-0 transition-all duration-500">
                     <div class="w-full h-64 bg-rose-100 rounded mb-4 overflow-hidden">
-                        <img src="https://lh3.googleusercontent.com/d/1RLtYRMMa4AFZ1YBwjMy1rtGU5qLCtZKh" class="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 transition-all" onerror="this.src='https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=400'">
+                        <img src="https://lh3.googleusercontent.com/d/1RLtYRMMa4AFZ1YBwjMy1rtGU5qLCtZKh" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=400'">
                     </div>
                     <p class="text-center font-serif text-rose-600 italic text-lg leading-tight">Childhood: The AI Merged Us Early ❤️</p>
-                    <p class="text-center text-[10px] text-rose-400 mt-2 italic px-2 leading-tight">Imagining we were together since the start</p>
                 </div>
 
                 <!-- School Phase -->
                 <div class="group bg-white p-4 pb-10 shadow-2xl border border-gray-100 transform rotate-2 hover:rotate-0 transition-all duration-500">
                     <div class="w-full h-64 bg-rose-100 rounded mb-4 overflow-hidden">
-                        <img src="https://lh3.googleusercontent.com/d/1R7lNZkA5G3CKTtwhx0lUPklID8glY4nu" class="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 transition-all" onerror="this.src='https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=400'">
+                        <img src="https://lh3.googleusercontent.com/d/1R7lNZkA5G3CKTtwhx0lUPklID8glY4nu" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=400'">
                     </div>
                     <p class="text-center font-serif text-rose-600 italic text-lg leading-tight">School Days: Where it genuinely began</p>
-                    <p class="text-center text-[10px] text-rose-400 mt-2 italic px-2 leading-tight">Classroom memories and pure love</p>
                 </div>
 
                 <!-- Current Phase -->
                 <div class="group bg-white p-4 pb-10 shadow-2xl border border-gray-100 transform -rotate-1 hover:rotate-0 transition-all duration-500">
                     <div class="w-full h-64 bg-rose-100 rounded mb-4 overflow-hidden">
-                        <img src="https://lh3.googleusercontent.com/d/14W0zbqpEtjeDPKrZ6WRL4BRQPDbNZSRK" class="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 transition-all" onerror="this.src='https://images.unsplash.com/photo-1522673607200-164883eeba11?w=400'">
+                        <img src="https://lh3.googleusercontent.com/d/14W0zbqpEtjeDPKrZ6WRL4BRQPDbNZSRK" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1522673607200-164883eeba11?w=400'">
                     </div>
                     <p class="text-center font-serif text-rose-600 italic text-lg leading-tight">Current Us: Stronger than ever</p>
-                    <p class="text-center text-[10px] text-rose-400 mt-2 italic px-2 leading-tight">Forever & Always with you</p>
                 </div>
             </div>
             <button onclick="goToStage('gift')" class="fixed bottom-8 left-1/2 -translate-x-1/2 px-10 py-4 bg-rose-500 text-white rounded-full font-bold shadow-2xl z-50 flex items-center gap-2 active:scale-95 transition-transform">
@@ -286,23 +288,20 @@
 
         // --- FLOATING HEARTS ---
         function createHeart() {
+            const container = document.getElementById('heartContainer');
+            if (!container) return;
             const heart = document.createElement('div');
             heart.innerText = '❤️';
             heart.className = 'absolute text-rose-300 opacity-40 animate-float-up';
             const left = Math.random() * 100;
             const size = Math.random() * 15 + 10;
             const duration = Math.random() * 2 + 3;
-            
             heart.style.left = `${left}%`;
             heart.style.fontSize = `${size}px`;
             heart.style.animationDuration = `${duration}s`;
             heart.style.bottom = '-50px';
-            
-            const container = document.getElementById('heartContainer');
-            if (container) {
-                container.appendChild(heart);
-                setTimeout(() => heart.remove(), duration * 1000);
-            }
+            container.appendChild(heart);
+            setTimeout(() => heart.remove(), duration * 1000);
         }
         setInterval(createHeart, 700);
 
@@ -310,24 +309,21 @@
         function increaseLove() {
             loveLevel = Math.min(loveLevel + 10, 100);
             document.getElementById('progressBar').style.width = `${loveLevel}%`;
-            
             const heart = document.getElementById('meterHeart');
             if (loveLevel > 50) {
                 heart.classList.add('text-rose-500');
                 heart.classList.remove('text-rose-200');
             }
-
             if (loveLevel >= 100) {
                 document.getElementById('heartTapBtn').classList.add('hidden');
                 document.getElementById('loveSuccess').classList.remove('hidden');
             }
         }
 
-        // --- GEMINI API CALLS ---
+        // --- GEMINI API CALLS WITH BACKOFF ---
         async function callGemini(prompt, systemPrompt) {
-            let retries = 0;
-            const maxRetries = 5;
-            while (retries < maxRetries) {
+            const delays = [1000, 2000, 4000, 8000, 16000];
+            for (let i = 0; i <= delays.length; i++) {
                 try {
                     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
                         method: 'POST',
@@ -337,27 +333,26 @@
                             systemInstruction: { parts: [{ text: systemPrompt }] }
                         })
                     });
+                    if (!response.ok) throw new Error('API Error');
                     const result = await response.json();
                     return result.candidates?.[0]?.content?.parts?.[0]?.text;
                 } catch (err) {
-                    retries++;
-                    await new Promise(r => setTimeout(r, Math.pow(2, retries) * 1000));
+                    if (i === delays.length) {
+                        return "Aww, Gemini is shy right now! But Sulav's love for you is always loud and clear! ❤️";
+                    }
+                    await new Promise(r => setTimeout(r, delays[i]));
                 }
             }
-            return null;
         }
 
         async function generatePoem() {
             const btn = document.getElementById('poemBtn');
             const text = document.getElementById('poemBtnText');
             const container = document.getElementById('poemContainer');
-            
             btn.disabled = true;
             text.innerHTML = "✨ Writing...";
-            
             const prompt = `Write a short, extremely romantic, and "gajab" birthday poem for Jenisha. Use her nicknames: Jaini, Maya, Fucche. Deeply in love. Under 6 lines.`;
-            const poem = await callGemini(prompt, "You are a world-class romantic poet.");
-            
+            const poem = await callGemini(prompt, "You are a world-class romantic poet writing for Sulav's girlfriend Jenisha.");
             if (poem) container.innerText = `"${poem.trim()}"`;
             text.innerHTML = "✨ Write Another";
             btn.disabled = false;
@@ -367,13 +362,10 @@
             const btn = document.getElementById('complimentBtn');
             const text = document.getElementById('complimentBtnText');
             const container = document.getElementById('complimentContainer');
-            
             btn.disabled = true;
             text.innerHTML = "✨ Sending Message...";
-            
-            const prompt = `Wish Jenisha (Maya) a Happy Birthday. Include that Sulav loves her very, very much. Encourage them to stay together forever. Make it a unique, sweet birthday message. One or two sentences max.`;
-            const compliment = await callGemini(prompt, "You are Gemini, a sweet AI messenger. Deliver a heartfelt birthday wish to Jenisha on behalf of Sulav. Mention Sulav loves her very much and they should always be together.");
-            
+            const prompt = `Wish Jenisha (Maya) a Happy Birthday. Include that Sulav loves her very, very much. Encourage them to stay together forever. One or two sentences max.`;
+            const compliment = await callGemini(prompt, "You are Gemini, a sweet AI messenger for Sulav and Jenisha.");
             if (compliment) {
                 container.innerText = compliment.trim();
                 speakText(compliment.trim());
@@ -399,7 +391,6 @@
                 });
                 const result = await response.json();
                 const base64Audio = result.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
-                
                 if (base64Audio) {
                     const audioSrc = `data:audio/wav;base64,${base64Audio}`;
                     const audio = new Audio(audioSrc);
@@ -410,7 +401,6 @@
             }
         }
 
-        // --- GIFT LOGIC ---
         function openGift() {
             document.getElementById('unopenedGift').classList.add('hidden');
             document.getElementById('openedGift').classList.remove('hidden');
